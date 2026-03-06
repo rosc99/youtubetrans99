@@ -102,19 +102,12 @@
   .sec-c .upload-zone { border-color: #cc88bb; background: rgba(200,136,187,0.06); }
 
   .upload-zone input[type="file"] {
-    display: none;
-  }
-
-  .upload-label {
     position: absolute;
     inset: 0;
+    opacity: 0;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    -webkit-tap-highlight-color: transparent;
+    width: 100%;
+    height: 100%;
   }
 
   .upload-icon { font-size: 20px; pointer-events: none; }
@@ -229,13 +222,11 @@
     <!-- ① 頭圍 -->
     <div class="sec sec-a">
       <div class="pic">
-        <div class="upload-zone">
-          <input type="file" id="upload-a" accept="image/*" onchange="loadImage(this)">
+        <div class="upload-zone" onclick="this.querySelector('input').click()">
+          <input type="file" accept="image/*" onchange="loadImage(this)">
           <img class="preview" alt="頭圍圖片">
-          <label for="upload-a" class="upload-label">
-            <div class="upload-icon">📷</div>
-            <div class="upload-txt">點擊上傳<br>頭圍圖片</div>
-          </label>
+          <div class="upload-icon">📷</div>
+          <div class="upload-txt">點擊上傳<br>頭圍圖片</div>
         </div>
       </div>
       <div class="vl"></div>
@@ -256,13 +247,11 @@
     <!-- ② 身長 -->
     <div class="sec sec-b">
       <div class="pic">
-        <div class="upload-zone">
-          <input type="file" id="upload-b" accept="image/*" onchange="loadImage(this)">
+        <div class="upload-zone" onclick="this.querySelector('input').click()">
+          <input type="file" accept="image/*" onchange="loadImage(this)">
           <img class="preview" alt="身長圖片">
-          <label for="upload-b" class="upload-label">
-            <div class="upload-icon">📷</div>
-            <div class="upload-txt">點擊上傳<br>身長圖片</div>
-          </label>
+          <div class="upload-icon">📷</div>
+          <div class="upload-txt">點擊上傳<br>身長圖片</div>
         </div>
       </div>
       <div class="vl"></div>
@@ -282,13 +271,11 @@
     <!-- ③ 胸圍 -->
     <div class="sec sec-c">
       <div class="pic">
-        <div class="upload-zone">
-          <input type="file" id="upload-c" accept="image/*" onchange="loadImage(this)">
+        <div class="upload-zone" onclick="this.querySelector('input').click()">
+          <input type="file" accept="image/*" onchange="loadImage(this)">
           <img class="preview" alt="胸圍圖片">
-          <label for="upload-c" class="upload-label">
-            <div class="upload-icon">📷</div>
-            <div class="upload-txt">點擊上傳<br>胸圍圖片</div>
-          </label>
+          <div class="upload-icon">📷</div>
+          <div class="upload-txt">點擊上傳<br>胸圍圖片</div>
         </div>
       </div>
       <div class="vl"></div>
@@ -323,15 +310,15 @@ function loadImage(input) {
   reader.onload = function(e) {
     const zone = input.closest('.upload-zone');
     const preview = zone.querySelector('img.preview');
-    const label = zone.querySelector('.upload-label');
+    const icon = zone.querySelector('.upload-icon');
+    const txt  = zone.querySelector('.upload-txt');
 
     preview.src = e.target.result;
     preview.style.display = 'block';
-    label.style.opacity = '0';
-
-    // 點擊預覽圖可以重新選擇
-    preview.onclick = function() { input.click(); };
-    preview.style.cursor = 'pointer';
+    icon.style.display = 'none';
+    txt.style.display  = 'none';
+    // 點擊已上傳的圖可以重新選擇
+    zone.title = '點擊重新選擇圖片';
   };
   reader.readAsDataURL(file);
 }
